@@ -1,0 +1,6 @@
+{
+  "name": "Amdox Enterprise Vision",
+  "description": "An authoritative, high-performance enterprise ERP designed to synthesize financial, treasury, and logistics data into actionable predictive insights with AI-driven forecasting and cockpit control.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

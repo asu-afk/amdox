@@ -1,0 +1,83 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "DM Sans", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
+
+  /* Amdox Enterprise Vision Corporate Modern (Refined Theme) Colors */
+  --color-bg-dark: #13121b;
+  --color-surf-lowest: #0c0d14;
+  --color-surf-low: #0e1018;
+  --color-surf-card: #13151f;
+  --color-surf-high: #161822;
+  --color-surf-highest: #1a1c28;
+  
+  --color-brand-primary: #7c6aff;
+  --color-brand-primary-dim: #a78bfa;
+  --color-brand-secondary: #00d4aa;
+  --color-brand-secondary-dim: #55fcd0;
+  --color-brand-tertiary: #52e5a3;
+  
+  --color-text-primary: #e8eaf0;
+  --color-text-secondary: #7c8099;
+  --color-text-muted: #35343d;
+  
+  --color-brand-outline: rgba(255, 255, 255, 0.07);
+  --color-brand-focus: #7c6aff;
+}
+
+/* Custom styles for high-end digital cockpit aesthetics */
+body {
+  background-color: #13121b;
+  color: #e8eaf0;
+  font-family: var(--font-sans);
+  overflow-x: hidden;
+}
+
+/* Glass panel border glow */
+.glass-panel {
+  background-color: #13151f;
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  border-radius: 0.75rem;
+}
+
+.ai-glow {
+  position: relative;
+}
+
+.ai-glow::after {
+  content: '';
+  position: absolute;
+  inset: -1px;
+  background: linear-gradient(135deg, #7c3aed 0%, #00b5d3 100%);
+  z-index: -1;
+  border-radius: inherit;
+  opacity: 0.45;
+  filter: blur(2px);
+  pointer-events: none;
+}
+
+.ai-glass-card {
+  background: linear-gradient(135deg, rgba(18, 33, 49, 0.95) 0%, rgba(13, 28, 45, 0.95) 100%);
+  border: 1px solid transparent;
+  border-image: linear-gradient(to right, #7c3aed, #00b5d3) 1;
+  border-radius: 0.75rem;
+  box-shadow: 0 0 15px rgba(124, 58, 237, 0.15);
+}
+
+/* Sizable custom scrollbar for cockpit feel */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: #010f1f;
+}
+::-webkit-scrollbar-thumb {
+  background: #1c2b3c;
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #7c3aed;
+}
