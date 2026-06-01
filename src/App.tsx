@@ -32,6 +32,7 @@ import HrPayrollWorkspace from './components/HrPayrollWorkspace';
 import ScmInventoryCtrl from './components/ScmInventoryCtrl';
 import ProjectTrackerWorkspace from './components/ProjectTrackerWorkspace';
 import SystemAuditCompliance from './components/SystemAuditCompliance';
+import ThreeDRobot from './components/ThreeDRobot';
 
 import TopBar from './components/TopBar';
 import { Transaction, InventoryItem, LogisticsShipment, AIPrediction, ERPDataState } from './types';
@@ -611,6 +612,9 @@ export default function App() {
           </div>
         </div>
       )}
+
+      {/* Floating Interactive 3D Robo Assistant */}
+      <ThreeDRobot userEmail={userEmail} />
 
     </div>
   );

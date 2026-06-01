@@ -55,7 +55,8 @@ export let predictions: AIPrediction[] = [
   { period: 'Jul 2026', forecastRevenue: 795000, forecastExpense: 450000, confidenceScore: 91 },
   { period: 'Aug 2026', forecastRevenue: 850000, forecastExpense: 462000, confidenceScore: 88 },
   { period: 'Sep 2026', forecastRevenue: 910000, forecastExpense: 480000, confidenceScore: 85 },
-  { period: 'Oct 2026', forecastRevenue: 980000, forecastExpense: 495000, confidenceScore: 82 }
+  { period: 'Oct 2026', forecastRevenue: 500000, forecastExpense: 560000, confidenceScore: 82 }, // Deficit > 10% (12%)
+  { period: 'Nov 2026', forecastRevenue: 520000, forecastExpense: 580000, confidenceScore: 78 }  // Deficit > 10% (11.5%)
 ];
 
 export function getBalanceSheet() {

@@ -17,7 +17,8 @@ import {
   YAxis, 
   CartesianGrid, 
   Tooltip, 
-  Legend 
+  Legend,
+  ReferenceArea
 } from 'recharts';
 import { 
   TrendingUp, 
@@ -31,7 +32,8 @@ import {
   ChevronRight, 
   DollarSign, 
   Award,
-  ArrowUpRight
+  ArrowUpRight,
+  AlertTriangle
 } from 'lucide-react';
 import { AIPrediction, Transaction } from '../types';
 
@@ -50,6 +52,11 @@ export default function BiWorkbenches({ predictions, transactions }: BiWorkbench
 
   const [activeDrillDownFilter, setActiveDrillDownFilter] = useState<string>('all');
   const [downloadSuccessMessage, setDownloadSuccessMessage] = useState<string | null>(null);
+
+  // Compute forecasted deficit months (expenses exceed revenue by > 10%)
+  const deficitPredictions = React.useMemo(() => {
+    return predictions.filter(p => p.forecastExpense > p.forecastRevenue * 1.10);
+  }, [predictions]);
 
   // Compute departmental sums for transaction-linked ledger
   const deptData = React.useMemo(() => {
@@ -216,14 +223,61 @@ export default function BiWorkbenches({ predictions, transactions }: BiWorkbench
                   <YAxis stroke="#7c8099" fontSize={10} tickLine={false} width={45} />
                   <Tooltip contentStyle={{ backgroundColor: '#13151f', border: '1px solid rgba(255,255,255,0.08)', borderRadius: '8px', fontFamily: 'monospace', fontSize: '11px' }} />
                   <Legend wrapperStyle={{ fontSize: '10px', paddingTop: '10px' }} />
+                  {deficitPredictions.map(item => (
+                    <ReferenceArea
+                      {...({
+                        key: item.period,
+                        x1: item.period,
+                        x2: item.period,
+                        fill: "rgba(239, 68, 68, 0.12)",
+                        stroke: "rgba(239, 68, 68, 0.35)",
+                        strokeDasharray: "3 3"
+                      } as any)}
+                    />
+                  ))}
                   <Line type="monotone" dataKey="forecastRevenue" name="Forecast Inflow" stroke="#7c6aff" strokeWidth={2.5} activeDot={{ r: 8 }} dot={{ r: 3 }} />
                   <Line type="monotone" dataKey="forecastExpense" name="Forecast Expense" stroke="#ffa940" strokeWidth={2} dot={{ r: 3 }} />
                 </LineChart>
               </ResponsiveContainer>
             </div>
+            
             <p className="text-[10px] text-text-secondary leading-normal text-center">
-              * Click on monthly nodes on the chart above to drill-down financial parameters.
+              * Click on monthly nodes on the chart above to drill-down financial parameters. Redshaded bands denote heavy deficits.
             </p>
+
+            {deficitPredictions.length > 0 && (
+              <div className="bg-rose-500/10 border border-rose-500/20 rounded-lg p-3 space-y-2 mt-2">
+                <div className="flex items-center gap-2 text-rose-400 font-bold text-[11px]">
+                  <AlertTriangle className="w-4 h-4 text-rose-500 animate-pulse" />
+                  <span>ALERT: FORECAST CRITICAL DEFICIT DETECTED (&gt; 10%)</span>
+                </div>
+                <p className="text-[10px] text-text-secondary leading-normal">
+                  The system highlighted month(s) where forecasted expenses exceed forecasted revenues by more than 10% in red color. Highlighted on the chart:
+                </p>
+                <div className="flex flex-wrap gap-2 pt-0.5">
+                  {deficitPredictions.map(item => {
+                    const ratio = ((item.forecastExpense - item.forecastRevenue) / item.forecastRevenue) * 100;
+                    return (
+                      <div key={item.period} className="bg-[#1f171c] hover:bg-[#251b21] border border-rose-900/40 rounded px-2.5 py-1.5 flex flex-col gap-1 min-w-[120px] transition-all">
+                        <span className="text-[#fca5a5] font-extrabold text-[11.5px] border-b border-rose-900/30 pb-0.5">{item.period}</span>
+                        <div className="flex justify-between gap-4 text-[10px] text-text-secondary">
+                          <span>Forecast Inflow:</span>
+                          <span className="font-bold text-white">${item.forecastRevenue.toLocaleString()}</span>
+                        </div>
+                        <div className="flex justify-between gap-4 text-[10px] text-text-secondary">
+                          <span>Forecast Expense:</span>
+                          <span className="font-bold text-rose-400">${item.forecastExpense.toLocaleString()}</span>
+                        </div>
+                        <div className="flex justify-between gap-4 text-[10px] border-t border-rose-900/20 pt-0.5">
+                          <span className="text-rose-400/80">Expense Excess:</span>
+                          <span className="text-rose-400 font-black">+{ratio.toFixed(1)}%</span>
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+            )}
           </div>
         )}
 
