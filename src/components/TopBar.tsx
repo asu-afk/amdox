@@ -4,14 +4,15 @@
  */
 
 import React, { useState, useEffect } from 'react';
-import { Activity, ShieldCheck, Mail, Database } from 'lucide-react';
+import { Activity, ShieldCheck, Mail, Database, BookOpen } from 'lucide-react';
 
 interface TopBarProps {
   userEmail: string;
   totalAssets: number;
+  onOpenGuide: () => void;
 }
 
-export default function TopBar({ userEmail, totalAssets }: TopBarProps) {
+export default function TopBar({ userEmail, totalAssets, onOpenGuide }: TopBarProps) {
   const [currentTime, setCurrentTime] = useState<string>('');
 
   useEffect(() => {
@@ -56,6 +57,17 @@ export default function TopBar({ userEmail, totalAssets }: TopBarProps) {
         <div className="hidden lg:block font-mono text-xs text-brand-secondary-dim bg-[#0d1c2d]/50 px-3 py-1 rounded-md border border-brand-outline">
           {currentTime || 'Synchronizing...'}
         </div>
+
+        {/* Onboarding Interactive System Guide Relauncher */}
+        <button
+          type="button"
+          onClick={onOpenGuide}
+          className="flex items-center gap-1.5 px-3 py-1 bg-brand-primary/10 hover:bg-brand-primary/25 border border-brand-primary/30 hover:border-brand-primary/50 text-brand-primary-dim hover:text-white transition-all text-xs font-mono font-bold rounded-lg cursor-pointer uppercase"
+          title="Relaunch ERP interactive onboarding system guide"
+        >
+          <BookOpen className="w-3.5 h-3.5 text-brand-primary-dim animate-pulse" />
+          <span className="hidden md:inline">Quick Guide</span>
+        </button>
 
         {/* User Session Profile */}
         <div className="flex items-center gap-2 px-3 py-1 rounded-lg border border-brand-outline bg-[#0d1c2d]/40">

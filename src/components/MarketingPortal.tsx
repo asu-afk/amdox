@@ -107,7 +107,7 @@ export default function MarketingPortal({ onEnterSSO, userEmail }: MarketingPort
           </div>
         </div>
 
-        {/* Dashboard Preview Interface Mock - Frameless */}
+       {/* Dashboard Preview Interface Mock - Frameless */}
         <div className="mt-16 bg-surf-lowest border border-brand-outline rounded-xl p-3 md:p-6 shadow-[0_20px_50px_rgba(0,0,0,0.5)] max-w-5xl mx-auto overflow-hidden relative group">
           <div className="absolute inset-x-0 top-0 h-40 bg-gradient-to-b from-brand-primary/5 to-transparent pointer-events-none" />
           <div className="flex items-center gap-1.5 pb-4 border-b border-brand-outline/55">
@@ -119,28 +119,8 @@ export default function MarketingPortal({ onEnterSSO, userEmail }: MarketingPort
             </span>
           </div>
           
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 pt-6 text-left">
-            <div className="bg-surf-card p-4 rounded-lg border border-brand-outline/80">
-              <span className="text-[10px] font-mono tracking-widest text-[#00d4aa] uppercase">FINANCIAL LEDGER (GL)</span>
-              <h3 className="text-lg font-bold text-white mt-1">AP/AR Double-Entry Core</h3>
-              <p className="text-xs text-text-secondary mt-1 font-sans">
-                Parity verified ledger logs preventing unbalanced transaction book adjustments.
-              </p>
-            </div>
-            <div className="bg-surf-card p-4 rounded-lg border border-brand-outline/80">
-              <span className="text-[10px] font-mono tracking-widest text-[#a78bfa] uppercase">AI DEMAND FORECASTING</span>
-              <h3 className="text-lg font-bold text-white mt-1">Prophet + LSTM ML Model</h3>
-              <p className="text-xs text-text-secondary mt-1 font-sans">
-                Predictive telemetry analytics with confidence thresholds optimized weekly.
-              </p>
-            </div>
-            <div className="bg-surf-card p-4 rounded-lg border border-brand-outline/80">
-              <span className="text-[10px] font-mono tracking-widest text-[#ffa940] uppercase">GLOBAL SCM & INVENTORY</span>
-              <h3 className="text-lg font-bold text-white mt-1">Auto-Demand Pull Engine</h3>
-              <p className="text-xs text-text-secondary mt-1 font-sans">
-                Threshold-triggered raw microcontroller procurement dispatches.
-              </p>
-            </div>
+          <div className="pt-8 text-center text-text-secondary font-mono text-xs">
+            Console ready. Sign in to boot Amdox Cognitive Ledger Engine.
           </div>
         </div>
       </section>

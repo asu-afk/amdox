@@ -33,6 +33,7 @@ import ScmInventoryCtrl from './components/ScmInventoryCtrl';
 import ProjectTrackerWorkspace from './components/ProjectTrackerWorkspace';
 import SystemAuditCompliance from './components/SystemAuditCompliance';
 import ThreeDRobot from './components/ThreeDRobot';
+import OnboardingGuide from './components/OnboardingGuide';
 
 import TopBar from './components/TopBar';
 import { Transaction, InventoryItem, LogisticsShipment, AIPrediction, ERPDataState } from './types';
@@ -43,9 +44,22 @@ export default function App() {
   // Navigation views: 'marketing' | 'sso' | 'cockpit'
   const [viewMode, setViewMode] = useState<'marketing' | 'sso' | 'cockpit'>('marketing');
   
+  // Multi-tab cockpit view management & interactive onboarding guide
+  const [showGuide, setShowGuide] = useState<boolean>(false);
+
   // Cockpit active modules
   type CockpitModule = 'analytics' | 'finance' | 'scm' | 'hr' | 'project' | 'compliance' | 'specs';
   const [activeModule, setActiveModule] = useState<CockpitModule>('analytics');
+
+  // Activate onboarding guide automatically for first-time users on login
+  useEffect(() => {
+    if (viewMode === 'cockpit') {
+      const hasOnboarded = localStorage.getItem('amdox_onboarded_guide_completed');
+      if (!hasOnboarded) {
+        setShowGuide(true);
+      }
+    }
+  }, [viewMode]);
 
   // Core state from express backend
   const [erpData, setErpData] = useState<ERPDataState | null>(null);
@@ -89,6 +103,14 @@ export default function App() {
 
   useEffect(() => {
     fetchState();
+
+    const handleRefresh = () => {
+      fetchState(true);
+    };
+    window.addEventListener('refresh-erp', handleRefresh);
+    return () => {
+      window.removeEventListener('refresh-erp', handleRefresh);
+    };
   }, []);
 
   // Post new ledger transactions manually (F-02)
@@ -309,7 +331,22 @@ export default function App() {
         <div className="pt-[56px] pl-0 lg:pl-56 select-none">
           
           {/* Dynamic Top Administrative Info Bar */}
-          <TopBar userEmail={userEmail} totalAssets={totalAssets} />
+          <TopBar 
+            userEmail={userEmail} 
+            totalAssets={totalAssets} 
+            onOpenGuide={() => setShowGuide(true)}
+          />
+
+          {/* Interactive Onboarding Quick Guide */}
+          <OnboardingGuide
+            activeModule={activeModule}
+            setActiveModule={setActiveModule}
+            isOpen={showGuide}
+            onClose={() => {
+              setShowGuide(false);
+              localStorage.setItem('amdox_onboarded_guide_completed', 'true');
+            }}
+          />
 
           {/* SIDERADIAL MODULES SELECTOR PANEL */}
           <aside className="fixed bottom-0 top-[56px] left-0 w-full lg:w-56 bg-[#090b11] border-t lg:border-t-0 lg:border-r border-brand-outline/80 flex flex-row lg:flex-col justify-around lg:justify-start items-stretch py-2 lg:py-5 px-3 z-40">
@@ -443,7 +480,13 @@ export default function App() {
 
             {/* RENDER THE CORRESPONDING ERP DIVISION WORKSPACE */}
             {activeModule === 'analytics' && (
-              <BiWorkbenches predictions={predictions} transactions={transactions} />
+              <BiWorkbenches 
+                predictions={predictions} 
+                transactions={transactions} 
+                inventory={inventory}
+                shipments={shipments}
+                userEmail={userEmail}
+              />
             )}
 
             {activeModule === 'finance' && (

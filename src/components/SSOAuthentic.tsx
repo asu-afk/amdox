@@ -143,13 +143,12 @@ export default function SSOAuthentic({ onLoginSuccess, userEmail }: SSOAuthentic
             <div className="space-y-1.5">
               <label className="text-[10px] uppercase text-text-secondary tracking-wider font-extrabold flex justify-between">
                 <span>Enterprise Workspace (Tenant Isolation)</span>
-                <span className="text-brand-secondary font-bold">F-01 Security</span>
               </label>
               <div className="grid grid-cols-3 gap-2">
                 {[
                   { id: 'amdox-us', name: 'Amdox US' },
-                  { id: 'amdox-emea', name: 'Amdox EMEA' },
-                  { id: 'amdox-apac', name: 'Amdox APAC' }
+                  { id: 'amdox-india', name: 'Amdox India' },
+                  { id: 'amdox-uk', name: 'Amdox UK' }
                 ].map((ten) => (
                   <button
                     key={ten.id}
